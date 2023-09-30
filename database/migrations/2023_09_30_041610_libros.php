@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
+
+        Schema::create('libros', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('autor_id');
             $table->string('titulo');
             $table->float('precio');
             $table->longText('portada');
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('libros');
     }
 };

@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/getLibro', function (Request $request) {
+
+
+    return response()->json([
+        "hola" => 'gola'
+    ]);
+});
+
+
+Route::post('/createLibro', function (Request $request) {
+    $body = $request->getContent();
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
