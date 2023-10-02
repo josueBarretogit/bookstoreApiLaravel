@@ -10,7 +10,7 @@ class Libro extends Model
 {
     use HasFactory;
     protected $table = 'libros';
-    protected $primaryKey = 'libroId';
+    protected $primaryKey = 'libro_id';
     public $timestamps = false;
 
     public function autor(): BelongsTo

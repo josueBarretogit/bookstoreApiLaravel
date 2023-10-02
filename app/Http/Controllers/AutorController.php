@@ -16,4 +16,14 @@ class AutorController extends Controller
         $autorToStore->save();
         return response()->json(['created' => 'true', "autor" => $autorToStore]);
     }
+
+    public function showAutores(Request $request)
+    {
+        $autores = Autor::all();
+        $oneAutor = Autor::find(1);
+        return response()->json([
+            "autores" => $autores,
+            "unAutor" => $oneAutor
+        ]);
+    }
 }

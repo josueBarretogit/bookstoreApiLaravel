@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Autor;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,8 @@ return new class extends Migration
     {
 
         Schema::create('libros', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('autor_id');
+            $table->id('libro_id');
+            $table->foreignIdFor(Autor::class);
             $table->string('titulo');
             $table->float('precio');
             $table->longText('portada');
