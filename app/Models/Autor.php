@@ -10,7 +10,7 @@ class Autor extends Model
 {
     use HasFactory;
     protected $table = 'autores';
-    protected $primaryKey = 'autor_id';
+    protected $primaryKey = 'id';
     public $timestamps = false;
 
     public function libros(): HasMany

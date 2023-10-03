@@ -11,8 +11,8 @@ class LibroController extends Controller
 
     public function storeLibro(Request $request)
     {
-        $libroToStore = new Libro();
-        $libroToStore->autor_id = $request->autor_id;
+        $libroToStore = new Libro;
+
         $libroToStore->titulo = $request->titulo;
         $libroToStore->precio = $request->precio;
         $libroToStore->portada = $request->portada;
@@ -24,21 +24,22 @@ class LibroController extends Controller
         $libroToStore->idioma = $request->idioma;
         $libroToStore->isbn = $request->isbn;
 
-        $autorAssociated = Autor::find($request->autor_id);
+        $autorAssociated = Autor::find($request->autor_autor_id);
+
+
         $libroToStore->autor()->associate($autorAssociated);
 
         $libroToStore->save();
+
         return response()->json(['created' => 'true', "libro" => $libroToStore]);
     }
 
 
     public function showLibros(Request $request)
     {
-        $libros = Libro::all();
-        $autor = Libro::find(1);
+        $libros = Libro::with('autor')->get();
         return response()->json([
             "libros" => $libros,
-            "autor" => $autor
         ]);
     }
 }
