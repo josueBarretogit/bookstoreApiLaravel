@@ -38,6 +38,7 @@ class LibroController extends Controller
     public function showLibros(Request $request)
     {
         $libros = Libro::with('autor')->get();
+
         return response()->json([
             "libros" => $libros,
         ]);

@@ -16,19 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/getLibro', function (Request $request) {
-
-    return response()->json([
-        "hola" => 'gola'
-    ]);
-});
 
 Route::get('/getAutores', [AutorController::class, 'showAutores']);
 
-Route::get('/getLibros', [LibroController::class, 'showLibros']);
-
 Route::post('/createAutor', [AutorController::class, 'storeAutor']);
 
-
+Route::get('/getLibros', [LibroController::class, 'showLibros']);
 
 Route::post('/createLibro', [LibroController::class, 'storeLibro']);
