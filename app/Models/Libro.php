@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Libro extends Model
 {
@@ -16,5 +17,10 @@ class Libro extends Model
     public function autor(): BelongsTo
     {
         return $this->belongsTo(Autor::class);
+    }
+
+    public function clientes(): BelongsToMany
+    {
+        return $this->belongsToMany(Cliente::class)->withPivot('fechaCompra');
     }
 }
