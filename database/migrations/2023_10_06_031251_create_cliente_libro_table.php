@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->foreign('libro_id')->references('id')->on('libros')->onDelete('cascade');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
+            $table->date('fecha_compra');
         });
     }
 

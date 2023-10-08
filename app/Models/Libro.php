@@ -11,6 +11,7 @@ class Libro extends Model
 {
     use HasFactory;
     protected $table = 'libros';
+    protected $fillable = ['titulo', 'precio', 'portada', 'descripcion', 'numPaginas', 'calificacion', 'fechaPublicacion', 'genero', 'idioma', 'isbn',];
     protected $primaryKey = 'id';
     public $timestamps = false;
 
@@ -21,6 +22,6 @@ class Libro extends Model
 
     public function clientes(): BelongsToMany
     {
-        return $this->belongsToMany(Cliente::class)->withPivot('fechaCompra');
+        return $this->belongsToMany(Cliente::class)->withPivot('fecha_compra');
     }
 }

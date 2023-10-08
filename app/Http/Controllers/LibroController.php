@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Autor;
+use App\Models\Cliente;
 use App\Models\Libro;
 use Illuminate\Http\Request;
 
@@ -24,10 +25,11 @@ class LibroController extends Controller
         $libroToStore->idioma = $request->idioma;
         $libroToStore->isbn = $request->isbn;
 
-        $autorAssociated = Autor::find($request->autor_autor_id);
-
+        $autorAssociated = Autor::find($request->autor_id);
+        $clienteAssociatedToLibro = Cliente::find($request->cliente_id);
 
         $libroToStore->autor()->associate($autorAssociated);
+        $libroToStore->clientes()->attach($clienteAssociatedToLibro);
 
         $libroToStore->save();
 

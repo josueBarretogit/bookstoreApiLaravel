@@ -12,6 +12,7 @@ class Autor extends Model
     use HasFactory;
     protected $table = 'autores';
     protected $primaryKey = 'id';
+    protected $fillable = ['nombre', 'aboutDescripcion', 'apellidos', 'foto'];
     public $timestamps = false;
 
     public function libros(): HasMany

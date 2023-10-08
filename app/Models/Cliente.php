@@ -11,6 +11,7 @@ class Cliente extends Model
 {
     use HasFactory;
     protected $table = 'clientes';
+    protected $fillable = ['nombre', 'apellidos'];
     protected $primaryKey = 'id';
     public $timestamps = false;
 
@@ -21,6 +22,6 @@ class Cliente extends Model
 
     public function libros(): BelongsToMany
     {
-        return $this->belongsToMany(Libro::class)->withPivot('fechaCompra');
+        return $this->belongsToMany(Libro::class)->withPivot('fecha_compra');
     }
 }

@@ -13,6 +13,8 @@ class Rol extends Model
 
     protected $table = 'roles';
     protected $primaryKey = 'id';
+
+    protected $fillable = ['nombreRol'];
     public $timestamps = false;
 
     public function permiso(): HasOne

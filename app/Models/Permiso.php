@@ -13,6 +13,7 @@ class Permiso extends Model
 
     protected $table = 'permisos';
     protected $primaryKey = 'id';
+    protected $fillable = ['nombrePermiso'];
     public $timestamps = false;
 
     public function rol(): BelongsTo

@@ -11,6 +11,7 @@ class Cuenta extends Model
     use HasFactory;
     protected $table = 'roles';
     protected $primaryKey = 'id';
+    protected $fillable = ['correo', 'contrasena'];
     public $timestamps = false;
 
     public function rol(): BelongsTo
