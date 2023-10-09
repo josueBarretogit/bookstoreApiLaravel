@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\LibroController;
+use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\RolController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/getAutores', [AutorController::class, 'showAutores']);
@@ -21,3 +23,19 @@ Route::post('/createLibro', [LibroController::class, 'storeLibro']);
 Route::get('/updateLibro', [LibroController::class, 'showLibros']);
 
 Route::post('/deleteLibro', [LibroController::class, 'storeLibro']);
+
+Route::get('/getPermisos', [PermisoController::class, 'showPermisos']);
+
+Route::post('/createPermiso', [PermisoController::class, 'storePermiso']);
+
+Route::get('/updateLibro', [PermisoCotroller::class, 'showLibros']);
+
+Route::post('/deleteLibro', [PermisoCotroller::class, 'storeLibro']);
+
+Route::get('/getRoles', [RolController::class, 'showPermisos']);
+
+Route::post('/createRol', [RolController::class, 'storeRol']);
+
+Route::get('/updateLibro', [RolController::class, 'showLibros']);
+
+Route::post('/deleteLibro', [RolController::class, 'storeLibro']);
