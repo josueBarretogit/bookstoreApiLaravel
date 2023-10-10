@@ -12,14 +12,16 @@ class RolController extends Controller
     {
         $rolToStore = new Rol();
         $rolToStore->nombreRol = $request->nombreRol;
-        $permiso = Permiso::findOrFail($request->permso_id);
-        $rolToStore->save($rolToStore);
-        return response()->json(['created' => 'true', "rol" => $rolToStore]);
+        $permiso = Permiso::find($request->permiso_id);
+
+        $permiso->rol()->save($rolToStore);
+
+        return response()->json(['created' => 'true', "rol" => $rolToStore, "permiso" => $permiso]);
     }
 
-    public function showroles(Request $request)
+    public function showRoles(Request $request)
     {
-        $roles = rol::all();
+        $roles = Rol::all();
         return response()->json([
             "roles" => $roles,
         ]);

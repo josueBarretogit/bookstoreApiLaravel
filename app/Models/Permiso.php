@@ -6,6 +6,7 @@ use App\Models\Rol;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Permiso extends Model
 {
@@ -16,8 +17,8 @@ class Permiso extends Model
     protected $fillable = ['nombrePermiso'];
     public $timestamps = false;
 
-    public function rol(): BelongsTo
+    public function rol(): HasOne
     {
-        return $this->belongsTo(Rol::class);
+        return $this->hasOne(Rol::class);
     }
 }

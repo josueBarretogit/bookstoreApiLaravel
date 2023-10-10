@@ -14,8 +14,6 @@ Route::get('/updateAutor', [AutorController::class, 'showAutores']);
 
 Route::post('/deleteAutor', [AutorController::class, 'storeAutor']);
 
-
-
 Route::get('/getLibros', [LibroController::class, 'showLibros']);
 
 Route::post('/createLibro', [LibroController::class, 'storeLibro']);
@@ -32,10 +30,7 @@ Route::get('/updateLibro', [PermisoCotroller::class, 'showLibros']);
 
 Route::post('/deleteLibro', [PermisoCotroller::class, 'storeLibro']);
 
-Route::get('/getRoles', [RolController::class, 'showPermisos']);
+Route::get('/getRoles', [RolController::class, 'showRoles']);
 
 Route::post('/createRol', [RolController::class, 'storeRol']);
 
-Route::get('/updateLibro', [RolController::class, 'showLibros']);
-
-Route::post('/deleteLibro', [RolController::class, 'storeLibro']);
