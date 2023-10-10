@@ -21,7 +21,28 @@ class RolController extends Controller
 
     public function showRoles(Request $request)
     {
-        $roles = Rol::all();
+        $roles = Rol::with('permiso')->get();
+
+        return response()->json([
+            "roles" => $roles,
+        ]);
+    }
+    public function editRol(Request $request)
+    {
+        $rolToEdit = Rol::findOrFail($request->id);
+        $rolToEdit->nombreRol = $request->nombreRol;
+
+        $rolToEdit->save();
+
+        return response()->json([
+            "rolEdited" => $rolToEdit,
+        ]);
+    }
+
+    public function deleteRol(Request $request)
+    {
+        $roles = Rol::with('permiso')->get();
+
         return response()->json([
             "roles" => $roles,
         ]);

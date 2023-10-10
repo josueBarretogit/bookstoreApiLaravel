@@ -15,11 +15,12 @@ class PermisoController extends Controller
         return response()->json(['created' => 'true', "permiso" => $permisoToStore]);
     }
 
-    public function showpermisoes(Request $request)
+    public function showPermisos(Request $request)
     {
-        $permisoes = permiso::all();
+        $permisos = Permiso::with('rol')->get();
+
         return response()->json([
-            "permisoes" => $permisoes,
+            "permisos" => $permisos,
         ]);
     }
 }
