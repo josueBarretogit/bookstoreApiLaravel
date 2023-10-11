@@ -23,4 +23,25 @@ class PermisoController extends Controller
             "permisos" => $permisos,
         ]);
     }
+
+    public function editPermiso(Request $request)
+    {
+        $permisoToEdit = Permiso::findOrFail($request->id);
+        $permisoToEdit->nombrePermiso = $request->nombrePermiso;
+
+        $permisoToEdit->save();
+
+        return response()->json([
+            "permisoEdited" => $permisoToEdit,
+        ]);
+    }
+
+    public function deleteRol(Request $request)
+    {
+        $roles = Permiso::with('permiso')->get();
+
+        return response()->json([
+            "roles" => $roles,
+        ]);
+    }
 }

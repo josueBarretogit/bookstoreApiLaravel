@@ -27,6 +27,7 @@ class RolController extends Controller
             "roles" => $roles,
         ]);
     }
+
     public function editRol(Request $request)
     {
         $rolToEdit = Rol::findOrFail($request->id);
