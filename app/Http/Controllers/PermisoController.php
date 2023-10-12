@@ -32,16 +32,17 @@ class PermisoController extends Controller
         $permisoToEdit->save();
 
         return response()->json([
-            "permisoEdited" => $permisoToEdit,
+            "rolEdited" => $permisoToEdit,
         ]);
     }
 
-    public function deleteRol(Request $request)
+    public function deletePermiso(Request $request)
     {
-        $roles = Permiso::with('permiso')->get();
+        $permisoToDelete = Permiso::findOrFail($request->id);
 
+        $permisoToDelete->delete();
         return response()->json([
-            "roles" => $roles,
+            "roles" => $permisoToDelete,
         ]);
     }
 }

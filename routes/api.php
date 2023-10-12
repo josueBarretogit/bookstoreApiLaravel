@@ -44,6 +44,8 @@ Route::post('/createRol', [RolController::class, 'storeRol']);
 
 Route::patch('/updateRol', [RolController::class, 'editRol']);
 
+Route::delete('/deleteRol', [RolController::class, 'destroyRol']);
+
 //cuentas
 
 Route::get('/getCuentas', [CuentaController::class, 'showCuentas']);

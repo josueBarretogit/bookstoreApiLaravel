@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Cuenta;
 use App\Models\Rol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class CuentaController extends Controller
 {
     public function storeCuenta(Request $request)
     {
-        $cuentaToStore = new Cuenta(
-            [
-                'correo' => $request->correo,
-                'contrasena' => $request->contrasena,
-            ]
-        );
+        $cuentaToStore = new Cuenta();
+
+        $cuentaToStore->correo = $request->correo;
+        $cuentaToStore->contrasena = Crypt::encryptString($request->contrasena);
 
         $rolAssociated = Rol::find($request->rol_id);
 
@@ -30,7 +29,32 @@ class CuentaController extends Controller
     {
         $cuentas = Cuenta::with('rol')->get();
         return response()->json([
-            "cuentaes" => $cuentas,
+            "cuentas" => $cuentas,
+        ]);
+    }
+
+    public function editCuenta(Request $request)
+    {
+        $cuentaToEdit = Cuenta::findOrFail($request->id);
+        $cuentaToEdit->correo = $request->correo;
+        if ($cuentaToEdit->contrasena != $request->contrasena) {
+            abort(401, 'No puedes editar esta cuenta ');
+        }
+        $cuentaToEdit->contrasena =  Crypt::encryptString($request->contrasena);
+        $cuentaToEdit->save();
+
+        return response()->json([
+            "rolEdited" => $cuentaToEdit,
+        ]);
+    }
+
+    public function deleteCuenta(Request $request)
+    {
+        $cuentaToDelete = Cuenta::findOrFail($request->id);
+
+        $cuentaToDelete->delete();
+        return response()->json([
+            "roles" => $cuentaToDelete,
         ]);
     }
 }

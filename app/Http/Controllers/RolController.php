@@ -40,12 +40,13 @@ class RolController extends Controller
         ]);
     }
 
-    public function deleteRol(Request $request)
+    public function destroyRol(Request $request)
     {
-        $roles = Rol::with('permiso')->get();
+        $rolToDelete = Rol::findOrFail($request->id);
+        $rolToDelete->delete();
 
         return response()->json([
-            "roles" => $roles,
+            "roles" => $rolToDelete,
         ]);
     }
 }
