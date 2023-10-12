@@ -46,7 +46,7 @@ Route::patch('/updateRol', [RolController::class, 'editRol']);
 
 //cuentas
 
-Route::get('/getCuenta', [CuentaController::class, 'showCuentas']);
+Route::get('/getCuentas', [CuentaController::class, 'showCuentas']);
 
 Route::post('/createCuenta', [CuentaController::class, 'storeCuenta']);
 

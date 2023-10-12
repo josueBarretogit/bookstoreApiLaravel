@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Cuenta extends Model
 {
     use HasFactory;
-    protected $table = 'roles';
+    protected $table = 'cuentas';
     protected $primaryKey = 'id';
     protected $fillable = ['correo', 'contrasena'];
     public $timestamps = false;

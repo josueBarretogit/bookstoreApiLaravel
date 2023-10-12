@@ -10,9 +10,12 @@ class CuentaController extends Controller
 {
     public function storeCuenta(Request $request)
     {
-        $cuentaToStore = new Cuenta();
-        $cuentaToStore->correo = $request->correo;
-        $cuentaToStore->contrasena = $request->contrasena;
+        $cuentaToStore = new Cuenta(
+            [
+                'correo' => $request->correo,
+                'contrasena' => $request->contrasena,
+            ]
+        );
 
         $rolAssociated = Rol::find($request->rol_id);
 
@@ -25,11 +28,9 @@ class CuentaController extends Controller
 
     public function showCuentas(Request $request)
     {
-        $cuentaes = Cuenta::all();
-        $onecuenta = Cuenta::find(1);
+        $cuentas = Cuenta::with('rol')->get();
         return response()->json([
-            "cuentaes" => $cuentaes,
-            "uncuenta" => $onecuenta
+            "cuentaes" => $cuentas,
         ]);
     }
 }
