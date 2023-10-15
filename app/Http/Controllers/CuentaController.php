@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Cuenta;
 use App\Models\Rol;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 function verificarContrasena(string $contrasenaEncrypted, string $contrasenaFromRequest)
 {
 
-    $contrasenaDecrypted = Crypt::decryptString($contrasenaEncrypted);
 
-    if ($contrasenaDecrypted != $contrasenaFromRequest) {
+
+    if (Hash::check($contrasenaFromRequest,  $contrasenaEncrypted)) {
         throw new HttpException(401, 'No puedes editar esta cuenta');
     }
 }
@@ -28,7 +28,7 @@ class CuentaController extends Controller
         $cuentaToStore = new Cuenta();
 
         $cuentaToStore->correo = $request->correo;
-        $cuentaToStore->contrasena = Crypt::encryptString($request->contrasena);
+        $cuentaToStore->contrasena = Hash::make($request->contrasena);
 
         $rolAssociated = Rol::find($request->rol_id);
 
@@ -53,7 +53,7 @@ class CuentaController extends Controller
         $cuentaToEdit->correo = $request->correo;
         verificarContrasena($cuentaToEdit->contrasena, $request->contrasena);
 
-        $cuentaToEdit->contrasena =  Crypt::encryptString($request->contrasenaNueva);
+        $cuentaToEdit->contrasena =  Hash::make($request->contrasenaNueva);
         $cuentaToEdit->save();
 
         return response()->json([
@@ -61,7 +61,7 @@ class CuentaController extends Controller
         ]);
     }
 
-    public function destroyCuenta(Request $request)
+    public function jestroyCuenta(Request $request)
     {
         $cuentaToDelete = Cuenta::findOrFail($request->id);
 

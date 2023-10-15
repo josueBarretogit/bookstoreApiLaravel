@@ -8,21 +8,31 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function logIn(Request $request)
+    public function logIn(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'correo' => ['required', 'email'],
+            'contrasena' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('home');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'No se encontró este correo',
         ])->onlyInput('email');
+    }
+    public function logOut(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

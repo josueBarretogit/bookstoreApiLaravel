@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\CuentaController;
 use App\Http\Controllers\LibroController;
@@ -48,11 +49,15 @@ Route::delete('/deleteRol', [RolController::class, 'destroyRol']);
 
 //cuentas
 
-Route::get('/getCuentas', [CuentaController::class, 'showCuentas']);
+Route::middleware('auth:sanctum')->get('/getcuentas', [cuentacontroller::class, 'showcuentas']);
 
-Route::post('/createCuenta', [CuentaController::class, 'storeCuenta']);
+route::post('/createCuenta', [cuentacontroller::class, 'storeCuenta']);
 
-Route::patch('/updateCuenta', [CuentaController::class, 'editCuenta']);
+route::patch('/updatecuenta', [cuentacontroller::class, 'editcuenta']);
 
-Route::delete('/deleteCuenta', [CuentaController::class, 'destroyCuenta']);
-//
+route::delete('/deleteCuenta', [CuentaController::class, 'destroyCuenta']);
+
+//authentication
+route::post('/login', [AuthController::class, 'logIn']);
+
+route::get('/logout', [AuthController::class, 'logOut']);
