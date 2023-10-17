@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'api',
+        'passwords' => 'cuentas',
     ],
 
     /*
@@ -36,9 +36,11 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'cuentas',
+            'hash' => true,
         ],
     ],
 
@@ -60,7 +62,7 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'cuentas' => [
             'driver' => 'eloquent',
             'model' => App\Models\Cuenta::class,
         ],
@@ -91,8 +93,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'cuentas' => [
+            'provider' => 'cuentas',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -25,8 +25,8 @@ class CuentaController extends Controller
 {
     public function storeCuenta(Request $request)
     {
-        $cuentaToStore = new Cuenta();
 
+        $cuentaToStore = new Cuenta();
         $cuentaToStore->correo = $request->correo;
         $cuentaToStore->contrasena = Hash::make($request->contrasena);
 

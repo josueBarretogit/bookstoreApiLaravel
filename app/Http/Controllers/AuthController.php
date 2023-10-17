@@ -46,19 +46,19 @@ class AuthController extends Controller
     {
         $validatedData = $request->validate([
             'correo' => 'required|string|max:255',
-            'contrasena' => 'required|string|email|max:255|unique:users',
+            'contrasena' => 'required|string|max:255',
             'rol_id' => 'required',
         ]);
 
-        var_dump($validatedData);
-        $cuenta = Cuenta::create([
-            'correo' => $validatedData['email'],
-            'contrasena' => Hash::make($validatedData['password']),
-        ]);
+        $cuenta = new Cuenta();
+        $cuenta->correo = $validatedData['correo'];
+        $cuenta->contrasena = Hash::make($validatedData['contrasena']);
 
         $rolAssociated = Rol::find($request->rol_id);
 
         $cuenta->rol()->associate($rolAssociated);
+
+        $cuenta->save();
 
         $token = $cuenta->createToken('auth_token')->plainTextToken;
 
