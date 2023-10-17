@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cuenta;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function logIn(Request $request): RedirectResponse
+    public function login(Request $request)
     {
         $credentials = $request->validate([
-            'correo' => ['required', 'email'],
-            'contrasena' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
 
-            return redirect()->intended('home');
+            $cuenta = Cuenta::find($request->correo);
+            return response()->json([
+                'token' => $cuenta->createToken('token')->plainTextToken(),
+                'authenthicated' => true,
+            ]);
         }
 
         return back()->withErrors([
@@ -34,5 +40,31 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate([
+            'correo' => 'required|string|max:255',
+            'contrasena' => 'required|string|email|max:255|unique:users',
+            'rol_id' => 'required',
+        ]);
+
+        var_dump($validatedData);
+        $cuenta = Cuenta::create([
+            'correo' => $validatedData['email'],
+            'contrasena' => Hash::make($validatedData['password']),
+        ]);
+
+        $rolAssociated = Rol::find($request->rol_id);
+
+        $cuenta->rol()->associate($rolAssociated);
+
+        $token = $cuenta->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
     }
 }

@@ -49,7 +49,7 @@ Route::delete('/deleteRol', [RolController::class, 'destroyRol']);
 
 //cuentas
 
-Route::middleware('auth:sanctum')->get('/getcuentas', [cuentacontroller::class, 'showcuentas']);
+Route::middleware('auth:sanctum')->get('/getCuentas', [cuentacontroller::class, 'showcuentas']);
 
 route::post('/createCuenta', [cuentacontroller::class, 'storeCuenta']);
 
@@ -58,6 +58,8 @@ route::patch('/updatecuenta', [cuentacontroller::class, 'editcuenta']);
 route::delete('/deleteCuenta', [CuentaController::class, 'destroyCuenta']);
 
 //authentication
-route::post('/login', [AuthController::class, 'logIn']);
+route::post('/login', [AuthController::class, 'login']);
 
-route::get('/logout', [AuthController::class, 'logOut']);
+route::post('/register', [AuthController::class, 'register']);
+
+route::post('/logout', [AuthController::class, 'logOut']);

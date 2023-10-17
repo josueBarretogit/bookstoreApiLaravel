@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
