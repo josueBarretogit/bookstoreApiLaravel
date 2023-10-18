@@ -26,50 +26,66 @@ class CuentaController extends Controller
     public function storeCuenta(Request $request)
     {
 
-        $cuentaToStore = new Cuenta();
-        $cuentaToStore->correo = $request->correo;
-        $cuentaToStore->contrasena = Hash::make($request->contrasena);
+        try {
+            $cuentaToStore = new Cuenta();
+            $cuentaToStore->correo = $request->correo;
+            $cuentaToStore->contrasena = Hash::make($request->contrasena);
 
-        $rolAssociated = Rol::find($request->rol_id);
+            $rolAssociated = Rol::find($request->rol_id);
 
-        $cuentaToStore->rol()->associate($rolAssociated);
+            $cuentaToStore->rol()->associate($rolAssociated);
 
-        $cuentaToStore->save();
+            $cuentaToStore->save();
 
-        return response()->json(['created' => 'true', "cuenta" => $cuentaToStore, "rol" => $rolAssociated]);
+            return response()->json(['created' => 'true', "cuenta" => $cuentaToStore, "rol" => $rolAssociated], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function showCuentas(Request $request)
     {
-        $cuentas = Cuenta::with('rol')->get();
-        return response()->json([
-            "cuentas" => $cuentas,
-        ]);
+        try {
+            $cuentas = Cuenta::with('rol')->get();
+            return response()->json([
+                "cuentas" => $cuentas,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function editCuenta(Request $request)
     {
-        $cuentaToEdit = Cuenta::findOrFail($request->id);
-        $cuentaToEdit->correo = $request->correo;
-        verificarContrasena($cuentaToEdit->contrasena, $request->contrasena);
+        try {
+            $cuentaToEdit = Cuenta::findOrFail($request->id);
+            $cuentaToEdit->correo = $request->correo;
+            verificarContrasena($cuentaToEdit->contrasena, $request->contrasena);
 
-        $cuentaToEdit->contrasena =  Hash::make($request->contrasenaNueva);
-        $cuentaToEdit->save();
+            $cuentaToEdit->contrasena =  Hash::make($request->contrasenaNueva);
+            $cuentaToEdit->save();
 
-        return response()->json([
-            "cuentaEdited" => $cuentaToEdit,
-        ]);
+            return response()->json([
+                "cuentaEdited" => $cuentaToEdit,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function jestroyCuenta(Request $request)
     {
-        $cuentaToDelete = Cuenta::findOrFail($request->id);
+        try {
+            $cuentaToDelete = Cuenta::findOrFail($request->id);
 
-        verificarContrasena($cuentaToDelete->contrasena, $request->contrasena);
+            verificarContrasena($cuentaToDelete->contrasena, $request->contrasena);
 
-        $cuentaToDelete->delete();
-        return response()->json([
-            "roles" => $cuentaToDelete,
-        ]);
+            $cuentaToDelete->delete();
+            return response()->json([
+                "roles" => $cuentaToDelete,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 }

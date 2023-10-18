@@ -13,58 +13,70 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        try {
 
-        if (Auth::attempt($credentials)) {
-
-            $cuenta = Cuenta::find($request->correo);
-            return response()->json([
-                'token' => $cuenta->createToken('token')->plainTextToken(),
-                'authenthicated' => true,
+            $validatedData = $request->validate([
+                'correo' => 'required|string|max:255',
+                'contrasena' => 'required|string|max:255',
             ]);
-        }
 
-        return back()->withErrors([
-            'email' => 'No se encontró este correo',
-        ])->onlyInput('email');
+            if (Auth::attempt($validatedData)) {
+
+                $cuenta = Cuenta::find($request->correo);
+                return response()->json([
+                    'token' => $cuenta->createToken('token')->plainTextToken(),
+                    'authenthicated' => true,
+                ]);
+            }
+
+            return response()->json(['error' => 'Este usuario no esta registrado'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
     public function logOut(Request $request): RedirectResponse
     {
-        Auth::logout();
+        try {
+            Auth::logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+            $request->session()->regenerateToken();
 
-        return redirect('/');
+            return redirect('/');
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
-            'correo' => 'required|string|max:255',
-            'contrasena' => 'required|string|max:255',
-            'rol_id' => 'required',
-        ]);
+        try {
 
-        $cuenta = new Cuenta();
-        $cuenta->correo = $validatedData['correo'];
-        $cuenta->contrasena = Hash::make($validatedData['contrasena']);
+            $validatedData = $request->validate([
+                'correo' => 'required|string|max:255',
+                'contrasena' => 'required|string|max:255',
+                'rol_id' => 'required',
+            ]);
 
-        $rolAssociated = Rol::find($request->rol_id);
+            $cuenta = new Cuenta();
+            $cuenta->correo = $validatedData['correo'];
+            $cuenta->contrasena = Hash::make($validatedData['contrasena']);
 
-        $cuenta->rol()->associate($rolAssociated);
+            $rolAssociated = Rol::find($request->rol_id);
 
-        $cuenta->save();
+            $cuenta->rol()->associate($rolAssociated);
 
-        $token = $cuenta->createToken('auth_token')->plainTextToken;
+            $cuenta->save();
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+            $token = $cuenta->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 }

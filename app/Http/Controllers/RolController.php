@@ -10,43 +10,59 @@ class RolController extends Controller
 {
     public function storeRol(Request $request)
     {
-        $rolToStore = new Rol();
-        $rolToStore->nombreRol = $request->nombreRol;
-        $permiso = Permiso::find($request->permiso_id);
+        try {
+            $rolToStore = new Rol();
+            $rolToStore->nombreRol = $request->nombreRol;
+            $permiso = Permiso::find($request->permiso_id);
 
-        $permiso->rol()->save($rolToStore);
+            $permiso->rol()->save($rolToStore);
 
-        return response()->json(['created' => 'true', "rol" => $rolToStore, "permiso" => $permiso]);
+            return response()->json(['created' => 'true', "rol" => $rolToStore, "permiso" => $permiso], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function showRoles(Request $request)
     {
-        $roles = Rol::with('permiso')->get();
+        try {
+            $roles = Rol::with('permiso')->get();
 
-        return response()->json([
-            "roles" => $roles,
-        ]);
+            return response()->json([
+                "roles" => $roles,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function editRol(Request $request)
     {
-        $rolToEdit = Rol::findOrFail($request->id);
-        $rolToEdit->nombreRol = $request->nombreRol;
+        try {
+            $rolToEdit = Rol::findOrFail($request->id);
+            $rolToEdit->nombreRol = $request->nombreRol;
 
-        $rolToEdit->save();
+            $rolToEdit->save();
 
-        return response()->json([
-            "rolEdited" => $rolToEdit,
-        ]);
+            return response()->json([
+                "rolEdited" => $rolToEdit,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function destroyRol(Request $request)
     {
-        $rolToDelete = Rol::findOrFail($request->id);
-        $rolToDelete->delete();
+        try {
+            $rolToDelete = Rol::findOrFail($request->id);
+            $rolToDelete->delete();
 
-        return response()->json([
-            "roles" => $rolToDelete,
-        ]);
+            return response()->json([
+                "roles" => $rolToDelete,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 }

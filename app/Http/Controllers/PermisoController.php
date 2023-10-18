@@ -9,40 +9,56 @@ class PermisoController extends Controller
 {
     public function storePermiso(Request $request)
     {
-        $permisoToStore = new Permiso();
-        $permisoToStore->nombrePermiso = $request->nombrePermiso;
-        $permisoToStore->save();
-        return response()->json(['created' => 'true', "permiso" => $permisoToStore]);
+        try {
+            $permisoToStore = new Permiso();
+            $permisoToStore->nombrePermiso = $request->nombrePermiso;
+            $permisoToStore->save();
+            return response()->json(['created' => 'true', "permiso" => $permisoToStore], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function showPermisos(Request $request)
     {
-        $permisos = Permiso::with('rol')->get();
+        try {
+            $permisos = Permiso::with('rol')->get();
 
-        return response()->json([
-            "permisos" => $permisos,
-        ]);
+            return response()->json([
+                "permisos" => $permisos,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function editPermiso(Request $request)
     {
-        $permisoToEdit = Permiso::findOrFail($request->id);
-        $permisoToEdit->nombrePermiso = $request->nombrePermiso;
+        try {
+            $permisoToEdit = Permiso::findOrFail($request->id);
+            $permisoToEdit->nombrePermiso = $request->nombrePermiso;
 
-        $permisoToEdit->save();
+            $permisoToEdit->save();
 
-        return response()->json([
-            "rolEdited" => $permisoToEdit,
-        ]);
+            return response()->json([
+                "rolEdited" => $permisoToEdit,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 
     public function deletePermiso(Request $request)
     {
-        $permisoToDelete = Permiso::findOrFail($request->id);
+        try {
+            $permisoToDelete = Permiso::findOrFail($request->id);
 
-        $permisoToDelete->delete();
-        return response()->json([
-            "roles" => $permisoToDelete,
-        ]);
+            $permisoToDelete->delete();
+            return response()->json([
+                "roles" => $permisoToDelete,
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e], 404);
+        }
     }
 }
