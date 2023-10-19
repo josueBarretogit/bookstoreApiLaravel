@@ -63,7 +63,7 @@ return [
 
     'providers' => [
         'cuentas' => [
-            'driver' => 'eloquent',
+            'driver' => 'database',
             'model' => App\Models\Cuenta::class,
         ],
 
